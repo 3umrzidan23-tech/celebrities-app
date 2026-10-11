@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:gal/gal.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'image_downloader_stub.dart'
+    if (dart.library.io) 'image_downloader_io.dart'
+    if (dart.library.html) 'image_downloader_web.dart';
 
 class DownloadImage {
   final Dio dio;
@@ -11,23 +10,14 @@ class DownloadImage {
 
   Future<bool> call(String url) async {
     try {
-      if (await Permission.storage.request().isGranted ||
-          await Permission.photos.request().isGranted) {
-        
-        final response = await dio.get(
-          url,
-          options: Options(responseType: ResponseType.bytes),
-        );
-        
-        final tempDir = await getTemporaryDirectory();
-        final file = File('${tempDir.path}/image_${DateTime.now().millisecondsSinceEpoch}.jpg');
-        await file.writeAsBytes(response.data);
-        
-        await Gal.putImage(file.path);
-        
-        return true;
+      final response = await dio.get(
+        url,
+        options: Options(responseType: ResponseType.bytes),
+      );
+      if (response.statusCode == 200 && response.data != null) {
+        return await saveImageBytes(List<int>.from(response.data));
       }
-      return false; // Permission denied
+      return false;
     } catch (e) {
       return false;
     }

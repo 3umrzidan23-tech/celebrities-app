@@ -1,11 +1,11 @@
 {
-    "name": "graduation",
-    "short_name": "graduation",
+    "name": "Celebrities App — Explore Famous People",
+    "short_name": "Celebrities",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0D1117",
+    "theme_color": "#0D1117",
+    "description": "Explore popular celebrities, movies, credits, and AI assistant.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
