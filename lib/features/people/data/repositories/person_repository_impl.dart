@@ -5,6 +5,7 @@ import '../../../../core/network/network_info.dart';
 import '../../domain/entities/person.dart';
 import '../../domain/entities/person_details.dart';
 import '../../domain/entities/person_image.dart';
+import '../../domain/entities/person_credit.dart';
 import '../../domain/repositories/person_repository.dart';
 import '../datasources/person_remote_data_source.dart';
 
@@ -64,6 +65,20 @@ class PersonRepositoryImpl implements PersonRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteData = await remoteDataSource.getPersonImages(id);
+        return Right(remoteData);
+      } on ServerException {
+        return const Left(ServerFailure());
+      }
+    } else {
+      return const Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PersonCredit>>> getPersonCredits(int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteData = await remoteDataSource.getPersonCredits(id);
         return Right(remoteData);
       } on ServerException {
         return const Left(ServerFailure());

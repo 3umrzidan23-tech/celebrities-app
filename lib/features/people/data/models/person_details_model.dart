@@ -9,6 +9,7 @@ class PersonDetailsModel extends PersonDetails {
     super.placeOfBirth,
     super.profilePath,
     required super.knownForDepartment,
+    required super.popularity,
   });
 
   factory PersonDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class PersonDetailsModel extends PersonDetails {
       placeOfBirth: json['place_of_birth'],
       profilePath: json['profile_path'],
       knownForDepartment: json['known_for_department'] ?? '',
+      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

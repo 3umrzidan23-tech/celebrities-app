@@ -45,7 +45,7 @@ dependencies:
   shared_preferences: ^2.5.5
   google_generative_ai: ^0.4.7
   path_provider: ^2.1.6
-  image_gallery_saver: ^2.0.3
+  gal: ^2.3.0
   permission_handler: ^13.0.1
 
 dev_dependencies:

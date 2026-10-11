@@ -31,68 +31,97 @@ class PersonCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.cardColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: AppColors.primaryBlue.withValues(alpha: 0.5),
+            width: 1.5,
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          fit: StackFit.expand,
           children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                child: profilePath != null
-                    ? CachedNetworkImage(
-                        imageUrl: '${ApiConstants.imageBaseUrl}$profilePath',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        placeholder: (context, url) => Container(
-                          color: AppColors.searchBackground,
-                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          color: AppColors.searchBackground,
-                          child: const Icon(Icons.person, color: AppColors.textGrey, size: 40),
-                        ),
-                      )
-                    : Container(
-                        color: AppColors.searchBackground,
-                        width: double.infinity,
-                        child: const Icon(Icons.person, color: AppColors.textGrey, size: 40),
+            if (profilePath != null)
+              CachedNetworkImage(
+                imageUrl: '${ApiConstants.imageBaseUrl}$profilePath',
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: AppColors.searchBackground,
+                  child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: AppColors.searchBackground,
+                  child: const Icon(Icons.person, color: AppColors.textGrey, size: 40),
+                ),
+              )
+            else
+              Container(
+                color: AppColors.searchBackground,
+                child: const Icon(Icons.person, color: AppColors.textGrey, size: 40),
+              ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.8),
+                      Colors.black,
+                    ],
+                    stops: const [0.0, 0.4, 1.0],
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      name,
+                      style: AppTextStyles.title.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textWhite,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      knownFor,
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textGrey,
+                        fontSize: 13,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: AppTextStyles.title.copyWith(fontSize: 14),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          knownFor,
-                          style: AppTextStyles.caption,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: GestureDetector(
+                onTap: onFavoriteToggle,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: AppColors.background.withValues(alpha: 0.5),
+                    shape: BoxShape.circle,
                   ),
-                  GestureDetector(
-                    onTap: onFavoriteToggle,
-                    child: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: isFavorite ? AppColors.accentRed : Colors.white60,
-                      size: 20,
-                    ),
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? AppColors.accentRed : AppColors.textWhite,
+                    size: 18,
                   ),
-                ],
+                ),
               ),
             ),
           ],

@@ -15,8 +15,10 @@ class AppRouter {
         final personId = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => PersonDetailsPage(personId: personId));
       case AppConstants.imageViewerRoute:
-        final imageUrl = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => ImageViewerScreen(imageUrl: imageUrl));
+        final args = settings.arguments as Map<String, dynamic>;
+        final images = args['images'] as List<String>;
+        final initialIndex = args['initialIndex'] as int;
+        return MaterialPageRoute(builder: (_) => ImageViewerScreen(images: images, initialIndex: initialIndex));
       case AppConstants.favoritesRoute:
         return MaterialPageRoute(builder: (_) => const FavoritesPage());
       case AppConstants.aiAssistantRoute:

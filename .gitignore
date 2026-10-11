@@ -48,3 +48,12 @@ app.*.map.json
 .env*
 *_secret.*
 
+# Android build and Gradle files
+/android/build/
+/android/app/build/
+.gradle/
+/android/.gradle/
+
+# Local brief/scratch files
+README_local.md
+

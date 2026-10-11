@@ -27,6 +27,7 @@ import 'features/people/data/repositories/person_repository_impl.dart';
 import 'features/people/domain/repositories/person_repository.dart';
 import 'features/people/domain/usecases/get_person_details.dart';
 import 'features/people/domain/usecases/get_person_images.dart';
+import 'features/people/domain/usecases/get_person_credits.dart';
 import 'features/people/domain/usecases/get_popular_people.dart';
 import 'features/people/domain/usecases/search_people.dart';
 import 'features/people/presentation/cubit/people_cubit.dart';
@@ -38,7 +39,7 @@ Future<void> init() async {
   // Features - People
   // Cubit
   sl.registerFactory(() => PeopleCubit(getPopularPeople: sl(), searchPeopleUsecase: sl()));
-  sl.registerFactory(() => PersonDetailsCubit(getPersonDetails: sl(), getPersonImages: sl()));
+  sl.registerFactory(() => PersonDetailsCubit(getPersonDetails: sl(), getPersonImages: sl(), getPersonCredits: sl()));
 
   // Features - Image Viewer
   // Cubit
@@ -59,7 +60,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<AiRemoteDataSource>(
-    () => AiRemoteDataSourceImpl(),
+    () => AiRemoteDataSourceImpl(dio: sl()),
   );
 
   // Features - Favorites
@@ -83,6 +84,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SearchPeople(sl()));
   sl.registerLazySingleton(() => GetPersonDetails(sl()));
   sl.registerLazySingleton(() => GetPersonImages(sl()));
+  sl.registerLazySingleton(() => GetPersonCredits(sl()));
 
   // Repository
   sl.registerLazySingleton<PersonRepository>(

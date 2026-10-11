@@ -8,6 +8,7 @@ class PersonDetails extends Equatable {
   final String? placeOfBirth;
   final String? profilePath;
   final String knownForDepartment;
+  final double popularity;
 
   const PersonDetails({
     required this.id,
@@ -17,6 +18,7 @@ class PersonDetails extends Equatable {
     this.placeOfBirth,
     this.profilePath,
     required this.knownForDepartment,
+    required this.popularity,
   });
 
   @override
@@ -28,5 +30,6 @@ class PersonDetails extends Equatable {
         placeOfBirth,
         profilePath,
         knownForDepartment,
+        popularity,
       ];
 }

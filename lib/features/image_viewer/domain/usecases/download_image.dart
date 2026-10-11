@@ -1,6 +1,7 @@
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gal/gal.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DownloadImage {
@@ -18,13 +19,13 @@ class DownloadImage {
           options: Options(responseType: ResponseType.bytes),
         );
         
-        final result = await ImageGallerySaver.saveImage(
-          Uint8List.fromList(response.data),
-          quality: 100,
-          name: "image_${DateTime.now().millisecondsSinceEpoch}",
-        );
-
-        return result != null && result['isSuccess'] == true;
+        final tempDir = await getTemporaryDirectory();
+        final file = File('${tempDir.path}/image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+        await file.writeAsBytes(response.data);
+        
+        await Gal.putImage(file.path);
+        
+        return true;
       }
       return false; // Permission denied
     } catch (e) {
