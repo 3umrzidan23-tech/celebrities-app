@@ -13,6 +13,10 @@ class AiRemoteDataSourceImpl implements AiRemoteDataSource {
 
   @override
   Future<String> sendMessage(String message) async {
+    if (ApiConstants.geminiApiKey.isEmpty ||
+        ApiConstants.geminiApiKey.contains('GEMINI_KEY')) {
+      return "AI Assistant is currently offline. Please configure GEMINI_API_KEY to activate.";
+    }
     try {
       final response = await dio.post(
         '${ApiConstants.geminiUrl}?key=${ApiConstants.geminiApiKey}',

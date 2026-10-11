@@ -36,7 +36,7 @@ fi
 
 echo "Building Flutter Web release with --dart-define parameters..."
 flutter build web --release \
-  --dart-define=TMDB_API_KEY="${TMDB_API_KEY:-YOUR_TMDB_API_KEY}" \
-  --dart-define=GEMINI_API_KEY="${GEMINI_API_KEY:-YOUR_GEMINI_API_KEY}"
+  --dart-define=TMDB_API_KEY="${TMDB_API_KEY:-2dfe23358236069710a379edd4c65a6b}" \
+  --dart-define=GEMINI_API_KEY="${GEMINI_API_KEY:-}"
 
 echo "Build completed successfully. Output ready in build/web."
